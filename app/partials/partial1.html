@@ -9,6 +9,15 @@
         <th>Birthday</th>
       </tr>
     </tbody>
+    <tbody>
+      <tr ng-repeat="friend in myFriends | orderBy: 'fromToday'">
+      <td>{{ $index+1 }}</td>
+      <td> 
+        <img ng-src="{{ friend.picture.data.url}}">{{friend.name}}
+        </td>
+        <td> {{ friend.birthdayDate | date: 'MMM dd'}}</td>
+      </tr>
+    </tbody>
   </table>
   <div ng-repeat="friend in myFriends">
     {{ friend.name }}
