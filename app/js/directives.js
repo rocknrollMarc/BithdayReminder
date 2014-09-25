@@ -39,7 +39,14 @@ angular.module('myApp.directives', []).
 
           // Check FB Status
           FB.getLoginStatus(function(response) {
-            console.log(response);
+            if (response.status == 'connected') {
+              FB.api('/me', function(response) {
+                scope.username = response.name;
+                console.log(scope.username);
+              });
+            } else {
+              FB.login();
+            }
           });
         };
         scope.username = "Marc Bluemner"
