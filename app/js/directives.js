@@ -8,4 +8,13 @@ angular.module('myApp.directives', []).
     return function(scope, elm, attrs) {
       elm.text(version);
     };
-  }]);
+  }])
+
+  .directive('myFacebook', [function() {
+    return{
+      link: function(scope, element, attributes) {
+        scope.username = "Marc Bluemner"
+      },
+      template: "Welcome {{ username }}"
+    }
+  }])
