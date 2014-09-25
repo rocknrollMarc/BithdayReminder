@@ -41,7 +41,9 @@ angular.module('myApp.directives', []).
           FB.getLoginStatus(function(response) {
             if (response.status == 'connected') {
               FB.api('/me', function(response) {
+                $scope.$apply(function() {
                 scope.username = response.name;
+                });
                 console.log(scope.username);
               });
             } else {
