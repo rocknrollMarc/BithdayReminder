@@ -44,16 +44,55 @@ angular.module('myApp.directives', []).
                 $scope.$apply(function() {
                 scope.username = response.name;
                 });
-                console.log(scope.username);
+
               });
+              scope.loadFriends();
             } else {
-              FB.login();
+              FB.login(function(response) {}, {
+                scope: scope.permissions
+              });
             }
           });
         };
         scope.username = "Marc Bluemner"
       },
+      scope: {
+        permissions: '@'
+        myFriends: '=friends'
       template: "Welcome {{ username }}"
+    },
+
+    controller: function($scope) {
+      $scope.loadFriends = function() {
+        FB.api('/me/friends?fields=birthday,name,picture', function(response) {
+          $scope.$apply(function() {
+            
+            var birthdayDate, day;
+            var currentYear = new Date().getFullYear();
+            var today = newDate().valueOf();
+            response.data.forEach(function(data) {
+              if (data.birthday) {
+               day = data.birthday.splitt("/"); 
+               birthdayDate = new Date(currentYear, day[0] - 1, day[1]);
+               if (birthdayDate.valueOf() < today) {
+                birthdayDate.setFullYear(currentYear + 1);
+               }
+               data.fromToday = birthdayDate.valueOf() - today;
+               data.birthdayDate = birthdayDate;
+              }
+            });
+
+            $scope.myFriends = response.data;
+          });
+        });
+      };
+      $scope.myLogin = function() {
+        FB.login(function(response) {}, {
+          scope: $scope.permissions
+        });
+      };
     };
+    templateUrl: 'partials/greeting.html'
+  };
   }
   ]);
