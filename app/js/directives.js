@@ -93,6 +93,6 @@ angular.module('myApp.directives', []).
       };
     };
     templateUrl: 'partials/greeting.html'
-  };
+    };
   }
-  ]);
+]);
